@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
-// Home.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Row, Col, Input } from "antd";
+import { Row, Col, Input, Button } from "antd";
 import MovieCard from "./MovieCard";
+import Navbar from "./layout/Navbar";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedMovies, setSelectedMovies] = useState([]);
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   useEffect(() => {
+    const storedSelectedMovies = localStorage.getItem("selectedMovies");
+    if (storedSelectedMovies) {
+      setSelectedMovies(JSON.parse(storedSelectedMovies));
+    }
     handleSearch(searchQuery || "a");
   }, []);
 
@@ -31,21 +37,63 @@ const Home = () => {
     }
   };
 
+  const handleSelectMovie = (movie, isChecked) => {
+    let updatedSelectedMovies;
+
+    if (isChecked) {
+      updatedSelectedMovies = [...selectedMovies, movie];
+    } else {
+      updatedSelectedMovies = selectedMovies.filter(
+        (selectedMovie) => selectedMovie.id !== movie.id
+      );
+    }
+
+    setSelectedMovies(updatedSelectedMovies);
+    localStorage.setItem(
+      "selectedMovies",
+      JSON.stringify(updatedSelectedMovies)
+    );
+  };
+
+  const handleDrawerOpen = () => {
+    setDrawerVisible(true);
+  };
+
+  const clearCart = () => {
+    setSelectedMovies([]);
+    localStorage.setItem("selectedMovies", JSON.stringify([]));
+    const updatedMovies = movies.map((movie) => {
+      const updatedMovie = { ...movie, isChecked: false };
+      localStorage.setItem(`checkbox-${movie.id}`, JSON.stringify(false));
+      return updatedMovie;
+    });
+
+    setMovies(updatedMovies);
+  };
+
+  //console.log("this is selectedMv =>", selectedMovies);
+  //console.log("this is mv =>", movies);
+
   return (
-    <div>
+    <div className="p-10">
       <Input.Search
         placeholder="Search movies..."
-        defaultValue={searchQuery}
         onSearch={handleSearch}
         enterButton
       />
       <Row gutter={[16, 16]}>
         {movies.map((movie) => (
           <Col key={movie.id} xs={24} sm={12} md={8} lg={6}>
-            <MovieCard movie={movie} />
+            <MovieCard
+              movie={movie}
+              onSelect={handleSelectMovie}
+              clearlist={clearCart}
+            />
           </Col>
         ))}
       </Row>
+      <Button onClick={handleDrawerOpen}>Open Cart</Button>
+      <Navbar selectedMovies={selectedMovies} clearCart={clearCart} />
     </div>
   );
 };
