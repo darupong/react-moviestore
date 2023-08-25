@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Drawer, List, Avatar } from "antd";
+import { Drawer, List, Avatar, Button } from "antd";
 
-const CartDrawer = ({ onClose, onOpen, selectedMovies }) => {
+const CartDrawer = ({ onClose, onOpen, selectedMovies, clearCart }) => {
+  console.log(selectedMovies);
   return (
     <>
       <Drawer
@@ -28,6 +29,9 @@ const CartDrawer = ({ onClose, onOpen, selectedMovies }) => {
             </List.Item>
           )}
         />
+        <Button danger onClick={clearCart}>
+          Clear Cart
+        </Button>
       </Drawer>
     </>
   );

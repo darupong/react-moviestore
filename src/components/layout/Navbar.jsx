@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import CartDrawer from "../CartDrawer";
 
-const Navbar = () => {
+const Navbar = ({ selectedMovies, clearCart }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const showDrawer = () => {
@@ -103,7 +104,12 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <CartDrawer onOpen={drawerVisible} onClose={closeDrawer} />
+      <CartDrawer
+        onOpen={drawerVisible}
+        onClose={closeDrawer}
+        selectedMovies={selectedMovies}
+        clearCart={clearCart}
+      />
     </>
   );
 };
