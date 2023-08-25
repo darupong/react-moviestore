@@ -55,10 +55,6 @@ const Home = () => {
     );
   };
 
-  const handleDrawerOpen = () => {
-    setDrawerVisible(true);
-  };
-
   const clearCart = () => {
     setSelectedMovies([]);
     localStorage.setItem("selectedMovies", JSON.stringify([]));
@@ -92,7 +88,6 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-      <Button onClick={handleDrawerOpen}>Open Cart</Button>
       <Navbar selectedMovies={selectedMovies} clearCart={clearCart} />
     </div>
   );
