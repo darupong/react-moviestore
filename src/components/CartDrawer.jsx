@@ -1,21 +1,29 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Drawer, List, Avatar, Button, Modal } from "antd";
 import qrcode from "../../public/img/qrcode.png";
 
 const CartDrawer = ({ onClose, onOpen, selectedMovies, clearCart }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [counter, setCounter] = useState(60);
-  //console.log("from cart =>", selectedMovies);
+  const [timer, setIsTimer] = useState(false);
+
+  useEffect(() => {
+    if (timer && counter > 0) {
+      const interval = setInterval(() => setCounter(counter - 1), 1000);
+      return () => clearInterval(interval);
+    }
+  }, [counter, timer]);
 
   const showModal = () => {
     setIsModalOpen(true);
-    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+    setIsTimer(true);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsTimer(false);
     setCounter(60);
   };
   return (
@@ -62,7 +70,7 @@ const CartDrawer = ({ onClose, onOpen, selectedMovies, clearCart }) => {
           </Button>,
         ]}
       >
-        <p>กรุณาชำระเงินภายในระยะเวลา : {counter}</p>
+        <p>กรุณาชำระเงินภายในระยะเวลา : {counter} วินาที</p>
         <img src={qrcode} />
       </Modal>
     </>
