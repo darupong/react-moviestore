@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Row, Col, Input, Button } from "antd";
+import { Row, Col, Input, message } from "antd";
 import MovieCard from "./MovieCard";
 import Navbar from "./layout/Navbar";
 
@@ -9,7 +9,6 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMovies, setSelectedMovies] = useState([]);
-  const [drawerVisible, setDrawerVisible] = useState(false);
 
   useEffect(() => {
     const storedSelectedMovies = localStorage.getItem("selectedMovies");
@@ -65,7 +64,8 @@ const Home = () => {
     });
 
     setMovies(updatedMovies);
-    console.log("selectedMovies after clearCart:", selectedMovies);
+    //console.log("selectedMovies after clearCart:", selectedMovies);
+    message.warning("Empty list");
   };
 
   //console.log("this is selectedMv =>", selectedMovies);

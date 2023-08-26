@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import { Card, Checkbox } from "antd";
+import { Card, Checkbox, message } from "antd";
 
 const MovieCard = ({ movie, onSelect, clearlist }) => {
   const { title, poster_path, overview } = movie;
@@ -18,6 +18,11 @@ const MovieCard = ({ movie, onSelect, clearlist }) => {
   const handleCheckboxChange = (event) => {
     const newCheckboxState = event.target.checked;
     setIsChecked(newCheckboxState);
+    if (!isChecked) {
+      message.success("Item add to cart");
+    } else {
+      message.warning("Item is remove");
+    }
 
     localStorage.setItem(
       `checkbox-${movie.id}`,
