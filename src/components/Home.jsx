@@ -65,30 +65,34 @@ const Home = () => {
     });
 
     setMovies(updatedMovies);
+    console.log("selectedMovies after clearCart:", selectedMovies);
   };
 
   //console.log("this is selectedMv =>", selectedMovies);
   //console.log("this is mv =>", movies);
 
   return (
-    <div className="p-10">
-      <Input.Search
-        placeholder="Search movies..."
-        onSearch={handleSearch}
-        enterButton
-      />
-      <Row gutter={[16, 16]}>
-        {movies.map((movie) => (
-          <Col key={movie.id} xs={24} sm={12} md={8} lg={6}>
-            <MovieCard
-              movie={movie}
-              onSelect={handleSelectMovie}
-              clearlist={clearCart}
-            />
-          </Col>
-        ))}
-      </Row>
-      <Navbar selectedMovies={selectedMovies} clearCart={clearCart} />
+    <div className="container mx-auto">
+      <div className="p-16 ">
+        <Input.Search
+          placeholder="Search movies..."
+          onSearch={handleSearch}
+          className="py-6"
+          size="large"
+        />
+        <Row gutter={[16, 16]}>
+          {movies.map((movie) => (
+            <Col key={movie.id} xs={24} sm={12} md={8} lg={6}>
+              <MovieCard
+                movie={movie}
+                onSelect={handleSelectMovie}
+                clearlist={clearCart}
+              />
+            </Col>
+          ))}
+        </Row>
+        <Navbar selectedMovies={selectedMovies} clearCart={clearCart} />
+      </div>
     </div>
   );
 };
